@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirect Complete</title>
+</head>
+<body>
+  <h1>Redirect successful!</h1>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const requestToken = params.get('request_token');
+
+    if (requestToken) {
+      console.log("🎯 request_token =", requestToken);
+
+      // Send token to backend
+      fetch('http://localhost:3000/save-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ requestToken })
+      })
+      .then(res => res.text())
+      .then(msg => console.log('✅ Server response:', msg))
+      .catch(err => console.error('❌ Error sending to server:', err));
+    }
+  </script>
+</body>
+</html>
