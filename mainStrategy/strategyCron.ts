@@ -16,7 +16,7 @@ export async function strategyCron() {
 
     logger.log(`Current opening price of ${symbol} is ${openStockPrice}`);
 
-    const getClosingPrice = lastClosing(symbol)
+    const getClosingPrice = await lastClosing(symbol)
     a.assertDefined(getClosingPrice, "Last closing price is not defined");
 
     logger.log(`Last closing price of ${symbol} is ${getClosingPrice}`);

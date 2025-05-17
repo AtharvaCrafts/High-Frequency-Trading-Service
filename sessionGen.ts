@@ -34,21 +34,20 @@ export function fetchTokenFromFileSystem(){
 }
 
 
-export async function init() {
+export async function init(requestToken : string) {
   try {
-    await generateSession();
+    await generateSession(requestToken);
   } catch (err) {
     console.error(err);
   }
 }
 
-async function generateSession() {
+async function generateSession(requestToken : string) {
   try {
-    const tokenRequest = fetchTokenFromFileSystem();
-    const response = await kc.generateSession(tokenRequest.requestToken, apiSecret);
+    const response = await kc.generateSession(requestToken, apiSecret);
     kc.setAccessToken(response.access_token);
-    strategyCron()
-    console.log("Session generated:", response);
+    const order = await strategyCron()
+    return order;
   } catch (err) {
     console.error("Error generating session :", err);
   }

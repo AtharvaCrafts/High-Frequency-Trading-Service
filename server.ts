@@ -3,7 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import { init } from './sessionGen.js';
-
+import dotenv from "dotenv";
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,8 +23,7 @@ app.get('/trade/redirect', async (req, res) => {
   fs.writeFileSync(path.join(__dirname, 'token.json'), JSON.stringify(data, null, 2));
   
   try {
-    await init(); // ✅ now valid
-    res.send("Token saved and session initialized.");
+    await init(requestToken as string); // ✅ now valid
   } catch (err) {
     console.error("❌ Error during init:", err);
     res.status(500).send("Something went wrong during session initialization.");
