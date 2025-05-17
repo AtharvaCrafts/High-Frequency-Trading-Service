@@ -1,7 +1,7 @@
 //for now this is one time script - later it will be deployed as a cron job
 
-import { kc } from "../sessionGen";
-import { symbol } from "../tempConfig";
+import { kc } from "../sessionGen.ts";
+import { symbol } from "../tempConfig.ts";
 import logger from "../assert/Log.ts"
 import { lastClosing } from "./closingCandle.ts";
 import { gapCalcPrct, placeOrderStat } from "./gap.ts";

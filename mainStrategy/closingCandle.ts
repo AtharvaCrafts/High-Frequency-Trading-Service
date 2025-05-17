@@ -1,5 +1,5 @@
 // write a function which returns historical data for a given stock symbol and date range
-import { kc } from "../sessionGen";
+import { kc } from "../sessionGen.ts";
 const interval = '3minute'; // Default interval, can be changed as needed
 export async function lastClosing(symbol: string) : Promise<number> {
     // Get historical data for the given stock symbol and date range
