@@ -1,20 +1,49 @@
 import { NseIndia } from "stock-nse-india";
+import a from "../assert/Assert.ts";
+import logger from "../assert/Log.ts";
 
 const nse = new NseIndia();
 
-export async function lastClosing(symbol: string){
-    // Get historical data for the given stock symbol and date range
+export async function lastClosing(symbol: string, isMonday?: boolean) {
     const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
+    let dateRange;
 
-   // Format date range just for yesterday
-    const start = new Date(yesterday.setHours(9, 15, 0, 0)); // Market open
-    const end = new Date(yesterday.setHours(15, 30, 0, 0));  // Market close
-    const dateRange = {
-        start,
-        end
+    if (isMonday) {
+        // On Monday, fetch last Friday's price
+        const friday = new Date();
+        friday.setDate(today.getDate() - 3); // Go back to last Friday
+
+        logger.log(`It's Monday - fetching price for last Friday (${friday.toDateString()})`);
+
+        dateRange = {
+            start: friday,
+            end: friday
+        };
+    } else {
+        // Fetch yesterday's price
+        const yesterday = new Date();
+        yesterday.setDate(today.getDate() - 2);
+
+        logger.log(`Fetching price of ${symbol} for yesterday (${yesterday.toDateString()})`);
+
+        dateRange = {
+            start: yesterday,   
+            end: yesterday
+        };
     }
+
     const historicalData = await nse.getEquityHistoricalData(symbol, dateRange);
-    return historicalData[0].data
+    const lastClosingPrice = historicalData?.[0]?.data?.[0]?.CH_LAST_TRADED_PRICE;
+
+    a.assertDefined(lastClosingPrice, 'lastClosingPrice is undefined');
+
+    logger.log(`Last price fetched for ${symbol}: ${lastClosingPrice}`);
+    return lastClosingPrice;
+}
+
+export async function getPrice(symbol : string){
+    const stock = await nse.getEquityDetails(symbol);
+    //maybe close or open ??
+    const price = stock.priceInfo.close
+    return price;
 }

@@ -1,7 +1,7 @@
 import logger from "../assert/Log.ts"
 import { placeOrder } from "../placeOrder.ts";
-import { kc } from "../sessionGen.ts";
-import { gapThresholdPercentage } from "../tempConfig.ts";
+import { gapThresholdPercentage, symbol } from "../tempConfig.ts";
+import { checkEquity } from "./checkEquity.ts";
 
 const GAP_THRESHOLD_PERCENT = parseInt(gapThresholdPercentage.toString());
 const BUY = "BUY";
@@ -14,13 +14,14 @@ export function gapCalcPrct(openPrice: number, lastClosingPrice: any): number {
     return gapPercent;
 }
 
-export function placeOrderStat(gapPercent : number){
+export async function placeOrderStat(gapPercent : number) {
     let order;
     if (gapPercent >= GAP_THRESHOLD_PERCENT) {
         logger.log(`🚀 GAP-UP detected (> ${GAP_THRESHOLD_PERCENT}%) — Consider BUY`);
         order = placeOrder(BUY);
     } else if (gapPercent <= -GAP_THRESHOLD_PERCENT) {
         logger.log(`🔻 GAP-DOWN detected (< -${GAP_THRESHOLD_PERCENT}%) — Consider SELL`);
+        await checkEquity(symbol);
         order = placeOrder(SELL);
     }
     return order;
