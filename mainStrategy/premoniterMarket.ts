@@ -36,7 +36,7 @@ export async function preMoniter() {
                 }
 
             } else {
-                const startOrder = strategyCron(symbol, quantity, sl);
+                const startOrder = strategyCron(symbol, quantity, sl, thresholdToSell);
 
                 if (startOrder !== undefined) {
                     tradeConfig[i].isOrdered = true;
