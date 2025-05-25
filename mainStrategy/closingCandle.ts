@@ -44,6 +44,6 @@ export async function lastClosing(symbol: string, isMonday?: boolean) {
 export async function getPrice(symbol : string){
     const stock = await nse.getEquityDetails(symbol);
     //maybe close or open ??
-    const price = stock.priceInfo.close
+    const price = Math.max(stock.priceInfo.close, stock.priceInfo.open)
     return price;
 }
