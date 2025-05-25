@@ -1,23 +1,22 @@
-import { KiteConnect } from "kiteconnect";
+
 import { confirmationOfBalnce } from "./confirmationOfFunds.ts";
-import { apiKey, symbol } from "./tempConfig.ts";
 import { kc } from "./sessionGen.ts";
-import { Exchanges, TransactionType, OrderType, Product } from "./dto/TGenericType.ts";
+import { Exchanges, OrderType, Product } from "./dto/TGenericType.ts";
 import logger from "./assert/Log.ts";
 
 
 
 
-export async function placeOrder(type: "BUY" | "SELL") {
+export async function placeOrder(symbol : string ,type: "BUY" | "SELL", quantity : number, sl : number) {
 
     const params = {
         exchange : 'NSE' as Exchanges,
         tradingsymbol : symbol,
         transaction_type : type,
         order_type : "MARKET" as OrderType,
-        quantity: parseInt(process.env.QUANTITY || "1"), // Add quantity with a default value
+        quantity: quantity, // Add quantity with a default value
         product: (process.env.PRODUCT as Product) || "MIS", // Add product with a default value
-        stoploss : parseInt(process.env.STOPLOSS!)  || 0,
+        stoploss : sl,
     }
     
     if(!confirmationOfBalnce(params.tradingsymbol, params.quantity)){

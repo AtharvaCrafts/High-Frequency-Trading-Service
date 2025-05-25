@@ -1,16 +1,49 @@
-// write a function which returns historical data for a given stock symbol and date range
-import { kc } from "../sessionGen";
-const interval = '3minute'; // Default interval, can be changed as needed
-export async function lastClosing(symbol: string) : Promise<number> {
-    // Get historical data for the given stock symbol and date range
+import { NseIndia } from "stock-nse-india";
+import a from "../assert/Assert.ts";
+import logger from "../assert/Log.ts";
+
+const nse = new NseIndia();
+
+export async function lastClosing(symbol: string, isMonday?: boolean) {
     const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
+    let dateRange;
 
-   // Format date range just for yesterday
-    const from = new Date(yesterday.setHours(9, 15, 0, 0)); // Market open
-    const to = new Date(yesterday.setHours(15, 30, 0, 0));  // Market close
+    if (isMonday) {
+        // On Monday, fetch last Friday's price
+        const friday = new Date();
+        friday.setDate(today.getDate() - 3); // Go back to last Friday
 
-    const historicalData = await kc.getHistoricalData(symbol, interval, from, to);
-    return historicalData.close;
+        logger.log(`It's Monday - fetching price for last Friday (${friday.toDateString()})`);
+
+        dateRange = {
+            start: friday,
+            end: friday
+        };
+    } else {
+        // Fetch yesterday's price
+        const yesterday = new Date();
+        yesterday.setDate(today.getDate() - 2);
+
+        logger.log(`Fetching price of ${symbol} for yesterday (${yesterday.toDateString()})`);
+
+        dateRange = {
+            start: yesterday,   
+            end: yesterday
+        };
+    }
+
+    const historicalData = await nse.getEquityHistoricalData(symbol, dateRange);
+    const lastClosingPrice = historicalData?.[0]?.data?.[0]?.CH_LAST_TRADED_PRICE;
+
+    a.assertDefined(lastClosingPrice, 'lastClosingPrice is undefined');
+
+    logger.log(`Last price fetched for ${symbol}: ${lastClosingPrice}`);
+    return lastClosingPrice;
+}
+
+export async function getPrice(symbol : string){
+    const stock = await nse.getEquityDetails(symbol);
+    //maybe close or open ??
+    const price = Math.max(stock.priceInfo.close, stock.priceInfo.open)
+    return price;
 }

@@ -1,4 +1,4 @@
-import logger from "./Log";
+import logger from "./Log.ts";
 
 class A {
   assertDefined<T>(value: T, message: string): asserts value is NonNullable<T> {
