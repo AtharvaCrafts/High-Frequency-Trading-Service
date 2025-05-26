@@ -1,12 +1,10 @@
-import { isMarketOpen, msUntilNextMarketOpen } from './marketTimings/marketTimings.ts';
+import { MarketTime } from './marketTimings/marketTimings.ts';
 import { register } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import logger from '../assert/Log.ts';
 import { tradeConfig } from '../tempConfig.ts';
 import { placeOrder } from '../placeOrder.ts';
 import { strategyCron } from './strategyCron.ts';
-import { kc } from '../sessionGen.ts';
-import { Exchanges, Product } from '../dto/TGenericType.ts';
 import { tickAllSymbols } from './continuesMoniter.ts';
 
 register('ts-node/esm', pathToFileURL('./'));
@@ -14,7 +12,7 @@ register('ts-node/esm', pathToFileURL('./'));
 
 export async function preMoniter(access_token : string | undefined) {
   try {
-    if (isMarketOpen()) {
+    if (MarketTime.isMarketOpen()) {
       logger.log(`Markets are open here we fucking go!!!!`);
       const tempConfig = [];
 
@@ -49,7 +47,7 @@ export async function preMoniter(access_token : string | undefined) {
       logger.log(`going in continues moniter now`);
       await tickAllSymbols(tempConfig, access_token); // 🔑 this line
     } else {
-      const timeLeft = msUntilNextMarketOpen();
+      const timeLeft = MarketTime.msUntilNextMarketOpen();
       logger.log(`Market closed. Waiting for ${timeLeft / 1000} seconds...`);
       await sleep(timeLeft);
       return preMoniter(access_token); // recursive retry

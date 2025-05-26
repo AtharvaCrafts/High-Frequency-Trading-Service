@@ -2,7 +2,7 @@ import { KiteConnect } from "kiteconnect";
 import logger from "../assert/Log.ts";
 import { Exchanges, Product } from "../dto/TGenericType.ts";
 import { apiKey, tradeConfig } from "../tempConfig.ts";
-import { isMarketOpen } from "./marketTimings/marketTimings.ts";
+import { MarketTime } from "./marketTimings/marketTimings.ts";
 import { getPrice } from "./closingCandle.ts";
 export const kc = new KiteConnect({ api_key: apiKey });
 
@@ -25,12 +25,12 @@ export async function tickAllSymbols(configs: TempConfig[], access_token: string
   kc.setAccessToken(access_token);
   logger.log(access_token);
 
-  while (isMarketOpen()) {
+  while (MarketTime.isMarketOpen()) {
     logger.log(`⏱️ Ticking...`);
 
-    const prices = await Promise.all(
-      configs.map(config => getPrice(config.symbol))
-    );
+    // const prices = await Promise.all(
+    //   configs.map(config => getPrice(config.symbol))
+    // );
 
     for (const config of configs) {
       const holdings = await kc.getHoldings();
