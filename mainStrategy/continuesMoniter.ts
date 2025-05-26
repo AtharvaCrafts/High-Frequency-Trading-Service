@@ -15,7 +15,13 @@ type TempConfig = {
 };
 
 
-export async function tickAllSymbols(configs: TempConfig[], access_token: string) {
+export async function tickAllSymbols(configs: TempConfig[], access_token: string | undefined) {
+
+  if(!access_token){
+    logger.log(`no access token`);
+    return
+  };
+
   kc.setAccessToken(access_token);
   logger.log(access_token);
 
