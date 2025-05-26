@@ -1,8 +1,8 @@
 //for now this is one time script - later it will be deployed as a cron job
 
 import logger from "../assert/Log.ts";
-import { getPrice, lastClosing } from "./closingCandle.ts";
-import { gapCalcPrct, placeOrderStat } from "./gap.ts";
+import { getPrice, lastClosing } from "./tools/closingCandle.ts";
+import { gapCalcPrct, placeOrderStat } from "./tools/gap.ts";
 
 export async function strategyCron(symbol : string, quantity : number, sl : number, thresholdToSell : number) {
     const date = new Date();

@@ -1,6 +1,6 @@
-import a from "../assert/Assert.ts";
-import logger from "../assert/Log.ts";
-import { kc } from "../sessionGen.ts";
+import a from "../../assert/Assert.ts";
+import logger from "../../assert/Log.ts";
+import { kc } from "../../sessionGen.ts";
 
 export async function checkEquity(symbol: string, quantity: number): Promise<boolean> {
   const holdings = await kc.getHoldings();

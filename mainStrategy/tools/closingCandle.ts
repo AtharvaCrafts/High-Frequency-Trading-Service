@@ -1,6 +1,6 @@
 import { NseIndia } from "stock-nse-india";
-import a from "../assert/Assert.ts";
-import logger from "../assert/Log.ts";
+import a from "../../assert/Assert.ts";
+import logger from "../../assert/Log.ts";
 
 const nse = new NseIndia();
 

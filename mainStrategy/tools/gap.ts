@@ -1,5 +1,5 @@
-import logger from "../assert/Log.ts"
-import { placeOrder } from "../placeOrder.ts";
+import logger from "../../assert/Log.ts"
+import { placeOrder } from "../../placeOrder.ts";
 import { checkEquity } from "./checkEquity.ts";
 const BUY = "BUY";
 const SELL = "SELL";

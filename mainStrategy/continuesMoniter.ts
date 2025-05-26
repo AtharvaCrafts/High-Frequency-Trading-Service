@@ -3,7 +3,7 @@ import logger from "../assert/Log.ts";
 import { Exchanges, Product } from "../dto/TGenericType.ts";
 import { apiKey, tradeConfig } from "../tempConfig.ts";
 import { MarketTime } from "./marketTimings/marketTimings.ts";
-import { getPrice } from "./closingCandle.ts";
+import { getPrice } from "./tools/closingCandle.ts";
 export const kc = new KiteConnect({ api_key: apiKey });
 
 
