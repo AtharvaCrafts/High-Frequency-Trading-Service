@@ -4,6 +4,7 @@ import { Exchanges, Product } from "../dto/TGenericType.ts";
 import { apiKey, tradeConfig } from "../tempConfig.ts";
 import { MarketTime } from "./marketTimings/marketTimings.ts";
 import { getPrice } from "./tools/closingCandle.ts";
+import { preMoniter } from "./premoniterMarket.ts";
 export const kc = new KiteConnect({ api_key: apiKey });
 
 
@@ -31,7 +32,10 @@ export async function tickAllSymbols(configs: TempConfig[], access_token: string
     // const prices = await Promise.all(
     //   configs.map(config => getPrice(config.symbol))
     // );
-
+    if(configs.length == 0){
+      logger.log(`no stocks filterd out - `)
+      preMoniter(access_token)
+    }
     for (const config of configs) {
       const holdings = await kc.getHoldings();
       const holding = holdings.find(h => h.tradingsymbol === config.symbol);

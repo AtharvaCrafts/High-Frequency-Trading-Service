@@ -27,13 +27,13 @@ export async function preMoniter(access_token : string | undefined) {
             logger.log(`immediate Order for ${symbol} with quantity ${quantity} & stop loss of ${sl} has been placed on NSE`);
             logger.log(`immediate Order - done`);
             tradeConfig[i].isOrdered = true;
-            tempConfig.push({ symbol, quantity, thresholdGap });
+            tempConfig.push({ symbol, quantity, thresholdToSell });
           } else {
             tradeConfig[i].isOrdered = false;
           }
 
         } else {
-          const startOrder = await strategyCron(symbol, quantity, sl, thresholdToSell);
+          const startOrder = await strategyCron(symbol, quantity, sl, thresholdGap);
 
           if (startOrder !== undefined) {
             tradeConfig[i].isOrdered = true;

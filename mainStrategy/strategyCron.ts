@@ -4,7 +4,7 @@ import logger from "../assert/Log.ts";
 import { getPrice, lastClosing } from "./tools/closingCandle.ts";
 import { gapCalcPrct, placeOrderStat } from "./tools/gap.ts";
 
-export async function strategyCron(symbol : string, quantity : number, sl : number, thresholdToSell : number) {
+export async function strategyCron(symbol : string, quantity : number, sl : number, thresholdGap : number) {
     const date = new Date();
     const isMonday = date.getDay() === 1;
     const lastClosingPrice = await lastClosing(symbol, isMonday);
@@ -16,7 +16,7 @@ export async function strategyCron(symbol : string, quantity : number, sl : numb
     logger.log(`calculating gap - ${gap} - done`)
 
     logger.log(`Intiating strat for ${symbol} -  start`)
-    const order = placeOrderStat(gap, symbol, quantity, sl, thresholdToSell)
+    const order = placeOrderStat(gap, symbol, quantity, sl, thresholdGap)
     logger.log(`Intiating strat for ${symbol} -  done`)
     return order
 }
