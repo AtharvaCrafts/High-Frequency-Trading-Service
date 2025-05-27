@@ -22,7 +22,7 @@ export async function lastClosing(symbol: string, isMonday?: boolean) {
     } else {
         // Fetch yesterday's price
         const yesterday = new Date();
-        yesterday.setDate(today.getDate() - 2);
+        yesterday.setDate(today.getDate() - 1);
 
         logger.log(`Fetching price of ${symbol} for yesterday (${yesterday.toDateString()})`);
 

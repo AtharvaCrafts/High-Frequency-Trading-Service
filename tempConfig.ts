@@ -10,6 +10,6 @@ export let tradeConfig = [
         immediateOrderAtMarketOpen : false,
         isOrdered : true,
         thresholdGap : 0.06,
-        thresholdToSell : 0.06
+        thresholdToSell : 1
     }
 ]

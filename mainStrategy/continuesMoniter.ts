@@ -64,9 +64,7 @@ export async function tickAllSymbols(configs: TempConfig[], access_token: string
     }
 
     await new Promise(res => setTimeout(res, 60000));
-
-
-    console.log('Market closed. Stopping ticks.');
+    logger.log(`tick tok, tick tok`)
   }
 }
 

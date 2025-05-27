@@ -21,6 +21,7 @@ export async function placeOrderStat(gapPercent : number, symbol : string, quant
         if(await checkEquity(symbol, quantity)) placeOrder(symbol, SELL, quantity, sl);
     } else {
         //do nothing 
+        logger.log(`No gap detected`)
         order = undefined;
     }
     return order;
