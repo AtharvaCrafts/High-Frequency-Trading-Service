@@ -1,8 +1,10 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { init } from './sessionGen.js';
+import { init, kc } from './sessionGen.js';
 import dotenv from "dotenv";
+import { WebSocketServer, WebSocket } from 'ws';
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,12 +22,41 @@ app.get('/trade/redirect', async (req, res) => {
   console.log("✅ Received request_token:", requestToken);  
   try {
     await init(requestToken as string); // ✅ now valid
+    res.redirect('/');
   } catch (err) {
     console.error("❌ Error during init:", err);
+    res.status(500).send('Error during authentication');
   }
 });
 
-app.listen(PORT, () => {
+app.get('/api/holdings', async (req, res) => {
+    try {
+        const holdings = await kc.getHoldings();
+        res.json(holdings);
+    } catch (error) {
+        console.error('Error fetching holdings:', error);
+        res.status(500).json({ error: 'Error fetching holdings' });
+    }
+});
+
+const server = app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+
+const wss = new WebSocketServer({ server });
+
+wss.on('connection', ws => {
+  console.log('Client connected');
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
+});
+
+export const broadcast = (data: any) => {
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+};
 

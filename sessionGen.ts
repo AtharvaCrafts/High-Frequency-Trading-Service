@@ -16,7 +16,7 @@ export async function init(requestToken : string) {
   try {
     const access_token = await generateSession(requestToken);
     console.log(await kc.getProfile());
-    preMoniter(access_token)
+    await preMoniter(access_token)
   } catch (err) {
     console.error(err);
   }

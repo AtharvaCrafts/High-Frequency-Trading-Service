@@ -3,9 +3,7 @@ import { confirmationOfBalnce } from "./confirmationOfFunds.ts";
 import { kc } from "./sessionGen.ts";
 import { Exchanges, OrderType, Product } from "./dto/TGenericType.ts";
 import logger from "./assert/Log.ts";
-
-
-
+import { broadcast } from "./server.js";
 
 export async function placeOrder(symbol : string ,type: "BUY" | "SELL", quantity : number, sl : number) {
 
@@ -26,5 +24,7 @@ export async function placeOrder(symbol : string ,type: "BUY" | "SELL", quantity
     logger.log(`Placing ${type} order for ${params.quantity} shares of ${params.tradingsymbol} at market price.`);
     const order = await kc.placeOrder("regular", params);
     
+    broadcast({ type: 'order_update', data: order });
+
     return order;
 } 
