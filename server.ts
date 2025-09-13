@@ -14,7 +14,7 @@ const app = express();
 const PORT = 3000;
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
 // Handle redirect from Zerodha
 app.get('/trade/redirect', async (req, res) => {
@@ -30,6 +30,9 @@ app.get('/trade/redirect', async (req, res) => {
 });
 
 app.get('/api/holdings', async (req, res) => {
+    if (!kc) {
+        return res.status(401).json({ error: 'Please login first' });
+    }
     try {
         const holdings = await kc.getHoldings();
         res.json(holdings);
@@ -37,6 +40,10 @@ app.get('/api/holdings', async (req, res) => {
         console.error('Error fetching holdings:', error);
         res.status(500).json({ error: 'Error fetching holdings' });
     }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 const server = app.listen(PORT, () => {

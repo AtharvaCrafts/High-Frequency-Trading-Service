@@ -4,7 +4,9 @@ export const useWebSocket = (onMessage: (data: any) => void) => {
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    
     ws.current = new WebSocket('ws://localhost:8080');
+
 
     ws.current.onopen = () => {
       console.log('WebSocket connected');

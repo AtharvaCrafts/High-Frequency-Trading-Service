@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import CallbackPage from './pages/CallbackPage';
+import HomePage from '/workspaces/typescript-node/High-Frequency-Trading-Service/frontend/src/pages/HomePage.tsx';
+import LoginPage from '/workspaces/typescript-node/High-Frequency-Trading-Service/frontend/src/pages/LoginPage.tsx';
+import CallbackPage from '/workspaces/typescript-node/High-Frequency-Trading-Service/frontend/src/pages/CallbackPage.tsx';
 import './App.css';
 
 // A simple check for authentication.

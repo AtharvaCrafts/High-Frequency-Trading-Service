@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { getHoldings } from './holdingsService';
+import { getHoldings } from '/workspaces/typescript-node/High-Frequency-Trading-Service/frontend/src/services/holdingsService.ts';
 
 export const useHoldings = () => {
   const [holdings, setHoldings] = useState<any[]>([]);
@@ -12,8 +12,8 @@ export const useHoldings = () => {
       setIsLoading(true);
       const data = await getHoldings();
       setHoldings(data);
-    } catch (err) {
-      setError('Failed to fetch holdings');
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }

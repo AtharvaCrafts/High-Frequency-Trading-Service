@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { useHoldings } from '../services/useHoldings';
-import { useWebSocket } from '../services/useWebSocket';
+import { useHoldings } from '/workspaces/typescript-node/High-Frequency-Trading-Service/frontend/src/services/useHoldings.ts';
+import { useWebSocket } from '/workspaces/typescript-node/High-Frequency-Trading-Service/frontend/src/services/useWebSocket.ts';
 
 const HomePage = () => {
   const { holdings, isLoading, error, setHoldings } = useHoldings();
