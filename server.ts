@@ -43,7 +43,7 @@ app.get('/api/holdings', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 const server = app.listen(PORT, () => {

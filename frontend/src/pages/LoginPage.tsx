@@ -2,7 +2,7 @@ import React from 'react';
 
 const LoginPage = () => {
   const handleLogin = () => {
-    window.location.href = 'http://localhost:5000/trade/redirect';
+    window.location.href = 'https://kite.zerodha.com/connect/login?api_key=ev7o6c03k1fdwrjk&v=3';
   };
 
   return (
