@@ -12,25 +12,21 @@ const isAuthenticated = () => {
   return window.location.pathname !== '/login';
 };
 
-const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  return isAuthenticated() ? children : <Navigate to="/login" />;
-};
-
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/trade/redirect" element={<CallbackPage />} />
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <HomePage />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/callback" element={<CallbackPage />} />
+          <Route
+            path="/"
+            element={
+              isAuthenticated() ? <HomePage /> : <Navigate to="/login" replace />
+            }
+          />
+        </Routes>
+      </div>
     </Router>
   );
 }

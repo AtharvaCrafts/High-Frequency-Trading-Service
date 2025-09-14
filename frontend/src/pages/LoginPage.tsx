@@ -2,7 +2,7 @@ import React from 'react';
 
 const LoginPage = () => {
   const handleLogin = () => {
-    window.location.href = 'http://localhost:3000/';
+    window.location.href = 'http://localhost:5000/trade/redirect';
   };
 
   return (

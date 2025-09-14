@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'frontend', 'build')));
@@ -43,7 +43,7 @@ app.get('/api/holdings', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/public', 'index.html'));
 });
 
 const server = app.listen(PORT, () => {
